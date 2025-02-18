@@ -1,0 +1,32 @@
+graph LR
+    A[Inicio: generate_net_links] --> B{¿t es menor que tmax?}
+    B -- Sí --> C[Generar n_new_agents, tamaño escándalo con distribución exponencial]
+    B -- No --> Y[Retornar links_list]
+    C --> D{¿n_new_agents es mayor que 1?}
+    D -- Sí --> E[Crear new_agent_names, nuevos agentes]
+    E --> F[Calcular new_repeated_agents, reincidentes]
+    F --> G{¿new_repeated_agents es mayor que 0?}
+    G -- Sí --> H[Bucle: para i en rango mínimo de new_repeated_agents y tamaño de new_agent_names]
+    G -- No --> N[Añadir new_agent_names a agent_names]
+    H --> I{Número aleatorio menor que proba y repeated_agent_names no está vacío}
+    I -- Sí --> J[Seleccionar repeated_agent de repeated_agent_names]
+    I -- No --> K[Seleccionar repeated_agent de agent_names que no esté en repeated_agent_names; aumentar total_repeated_agents en 1]
+    J --> L[Asignar repeated_agent a new_agent_names en posición i]
+    K --> L
+    L --> M[Añadir repeated_agent a repeated_agent_names]
+    M --> H
+    H -- Fin del bucle --> N
+    N --> O[Generar new_links con combinaciones de new_agent_names]
+    O --> P[Añadir new_links a links_list]
+    P --> Q[Aumentar t en 1]
+    Q --> B
+    D -- No --> Q
+    Y --> Z[Inicio: network con t y edges_list]
+    Z --> AA[Crear grafo g no dirigido]
+    AA --> BB[Concatenar edge_lists hasta t en edge_list_t]
+    BB --> CC[Añadir edge_list_t a g]
+    CC --> DD[Eliminar auto-bucles de g]
+    DD --> EE[Eliminar aristas paralelas de g]
+    EE --> FF[Retornar grafo g]
+    FF --> GG[Fin de network]
+    Y --> GG[Fin de generate_net_links]
